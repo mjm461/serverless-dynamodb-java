@@ -1,0 +1,40 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion")
+    }
+}
+
+apply plugin: "org.springframework.boot"
+
+dependencies {
+    compileOnly "javax.servlet:javax.servlet-api:3.1.0"
+    compileOnly "org.projectlombok:lombok:$lombokVersion"
+
+    compile "org.springframework:spring-webmvc:$springFrameworkVersion"
+    compile "org.springframework:spring-web:$springFrameworkVersion"
+    compile "org.springframework.security:spring-security-config:$springSecurityVersion"
+    compile "org.springframework.security:spring-security-web:$springSecurityVersion"
+    compile "com.amazonaws:aws-lambda-java-core:$awsLambdaVersion"
+    compile "com.github.derjust:spring-data-dynamodb:$springDataDynamodbVersion"
+
+    testCompileOnly "org.projectlombok:lombok:$lombokVersion"
+
+    testCompile "org.springframework.boot:spring-boot-starter-web"
+    testCompile "org.springframework.boot:spring-boot-starter-actuator"
+    testCompile "org.springframework.boot:spring-boot-starter-test"
+    testCompile "com.amazonaws:DynamoDBLocal:$dynamodDBLocalVersion"
+}
+
+springBoot {
+    layout = "MODULE"
+}
+
+test {
+    dependsOn copyNativeDeps
+    systemProperty "java.library.path", "build/libs"
+    systemProperty "com.game.dynamodbport", "8001"
+    systemProperty "server.contextPath", "/api"
+}

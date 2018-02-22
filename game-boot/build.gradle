@@ -1,0 +1,39 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion")
+    }
+}
+
+apply plugin: "org.springframework.boot"
+
+
+dependencies {
+    compile project(':game-core')
+
+    compile "org.springframework.boot:spring-boot-starter-web"
+    compile "org.springframework.boot:spring-boot-starter-actuator"
+    compile "io.swagger:swagger-annotations:1.5.4"
+    compile "io.springfox:springfox-swagger-ui:2.6.0"
+    compile "io.springfox:springfox-swagger2:2.0.1"
+    compile "org.springframework.restdocs:spring-restdocs-core"
+    compile "io.springfox:springfox-spring-web:2.0.1"
+}
+
+bootRun {
+    dependsOn copyNativeDeps
+    systemProperty "java.library.path", "build/libs"
+    classpath = sourceSets.test.runtimeClasspath
+    main = "com.game.boot.Application"
+}
+
+test {
+    dependsOn copyNativeDeps
+    systemProperty "java.library.path", "build/libs"
+}
+

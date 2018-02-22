@@ -1,0 +1,14 @@
+dependencies {
+    compile project(':game-core')
+
+    compile "org.slf4j:jcl-over-slf4j:$slf4jVersion"
+    compile "org.slf4j:slf4j-jdk14:$slf4jVersion"
+    compile "com.amazonaws.serverless:aws-serverless-java-container-spring:$awsLambdaContainerVersion"
+}
+
+jar {
+    enabled = true
+    into("lib") {
+        from configurations.runtime
+    }
+}

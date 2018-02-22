@@ -1,0 +1,29 @@
+AWSTemplateFormatVersion: 2010-09-09
+Transform:
+- AWS::Serverless-2016-10-31
+- AWS::CodeStar
+
+Parameters:
+  ProjectId:
+    Type: String
+    Description: Example API using Spring / Lambmda / DynamoDb
+
+Resources:
+  GameApiHandler:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: com.game.lambda.LambdaHandler
+      Environment:
+        Variables:
+          DYNAMODB_ENDPOINT: http://1.2.3.4:8000
+          DYNAMODB_ACCESS_KEY: access
+          DYNAMODB_SECRET_KEY: secret
+      Timeout: 180
+      CodeUri: game-lambda/build/libs/game-lambda-1.0-SNAPSHOT.jar
+      Runtime: java8
+      Events:
+        ProxyApi:
+          Type: Api
+          Properties:
+            Path: /{proxy+}
+            Method: ANY

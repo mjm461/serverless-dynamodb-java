@@ -1,0 +1,47 @@
+allprojects {
+    group 'com.wombat'
+    version '1.0-SNAPSHOT'
+
+    apply plugin: 'java'
+
+    sourceCompatibility = 1.8
+
+    repositories {
+        maven {
+            url = "https://s3-us-west-2.amazonaws.com/dynamodb-local/release"
+        }
+        mavenCentral()
+    }
+
+    dependencies {
+        testCompile group: 'junit', name: 'junit', version: '4.12'
+    }
+
+    ext {
+        springBootVersion = "1.5.9.RELEASE"
+        springFrameworkVersion = "4.3.13.RELEASE"
+        springSecurityVersion = "4.2.3.RELEASE"
+        springDataCommonsVersion = "2.0.2.RELEASE"
+        springDataDynamodbVersion = "4.5.2"
+        springRestDocsVersion = "2.0.0.RELEASE"
+        awsLambdaVersion = "1.1.0"
+        awsLambdaContainerVersion = "0.8"
+        jwtVersion = "0.6.0"
+        dynamodDBLocalVersion = "1.11.0.1"
+        slf4jVersion = "1.7.25"
+        lombokVersion = "1.16.16"
+    }
+
+    task copyNativeDeps(type: Copy) {
+        from(configurations.compile + configurations.testCompile) {
+            include "*.dll"
+            include "*.dylib"
+            include "*.so"
+        }
+        into "build/libs"
+    }
+
+    jar {
+        onlyIf { !sourceSets.main.allSource.files.isEmpty() }
+    }
+}

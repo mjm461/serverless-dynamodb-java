@@ -1,0 +1,5 @@
+rootProject.name = 'game'
+include 'game-core'
+include 'game-boot'
+include 'game-lambda'
+

@@ -1,0 +1,14 @@
+server:
+  hostname: http://localhost:8080
+  contextPath: /
+
+logging:
+  level:
+    root: info
+
+com:
+  game:
+    dynamodbport: 8000
+    dynamodbendpoint: http://localhost:${com.game.dynamodbport}/
+    accesskey: accesskey
+    secretkey: secretkey
